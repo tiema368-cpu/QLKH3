@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sửa đề tài - Hệ thống QLSPKH</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-3xl mx-auto p-6">
+    <h2 class="text-xl font-bold mb-4">Sửa đề tài</h2>
+    <form method="post">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div><label class="block text-sm font-medium mb-1">Tên đề tài *</label><input name="title" value="{{ item.title }}" class="w-full border px-3 py-2 rounded" required></div>
+        <div><label class="block text-sm font-medium mb-1">Mã số đề tài *</label><input name="code" value="{{ item.code }}" class="w-full border px-3 py-2 rounded" required></div>
+        <div><label class="block text-sm font-medium mb-1">Cấp đề tài *</label><select name="level" class="w-full border px-3 py-2 rounded"><option value="">Chọn cấp</option><option value="national" {{ 'selected' if item.level=='national' else '' }}>Cấp quốc gia</option><option value="ministry" {{ 'selected' if item.level=='ministry' else '' }}>Cấp bộ</option><option value="provincial" {{ 'selected' if item.level=='provincial' else '' }}>Cấp tỉnh</option><option value="university" {{ 'selected' if item.level=='university' else '' }}>Cấp trường</option></select></div>
+        <div><label class="block text-sm font-medium mb-1">Vai trò *</label><select name="role" class="w-full border px-3 py-2 rounded"><option value="">Chọn vai trò</option><option value="leader" {{ 'selected' if item.role=='leader' else '' }}>Chủ nhiệm</option><option value="member" {{ 'selected' if item.role=='member' else '' }}>Thành viên</option></select></div>
+        <div><label class="block text-sm font-medium mb-1">Năm bắt đầu *</label><input name="start_year" type="number" value="{{ item.start_year }}" class="w-full border px-3 py-2 rounded"></div>
+        <div><label class="block text-sm font-medium mb-1">Năm kết thúc *</label><input name="end_year" type="number" value="{{ item.end_year }}" class="w-full border px-3 py-2 rounded"></div>
+        <div><label class="block text-sm font-medium mb-1">Kinh phí (triệu đồng)</label><input name="budget" type="number" value="{{ item.budget }}" class="w-full border px-3 py-2 rounded"></div>
+        <div><label class="block text-sm font-medium mb-1">Tình trạng *</label><select name="status" class="w-full border px-3 py-2 rounded"><option value="">Chọn tình trạng</option><option value="ongoing" {{ 'selected' if item.status=='ongoing' else '' }}>Đang thực hiện</option><option value="completed" {{ 'selected' if item.status=='completed' else '' }}>Đã hoàn thành</option><option value="cancelled" {{ 'selected' if item.status=='cancelled' else '' }}>Đã hủy</option></select></div>
+      </div>
+      <div class="flex justify-end space-x-2">
+        <a href="{{ url_for('index') }}" class="px-4 py-2 border rounded">Hủy</a>
+        <button class="px-4 py-2 bg-blue-600 text-white rounded">Lưu</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

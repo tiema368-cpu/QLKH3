@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Đăng nhập - Hệ thống QLSPKH</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-md bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold mb-4">Đăng nhập</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for cat, msg in messages %}
+          <div class="mb-2 px-3 py-2 rounded {{ 'bg-green-100 text-green-800' if cat=='success' else 'bg-red-100 text-red-800' }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form method="post">
+      <label class="block text-sm font-medium mb-1">Tên đăng nhập</label>
+      <input name="username" class="w-full border px-3 py-2 rounded mb-3" required>
+      <label class="block text-sm font-medium mb-1">Mật khẩu</label>
+      <input name="password" type="password" class="w-full border px-3 py-2 rounded mb-4" required>
+      <div class="flex justify-end">
+        <button class="px-4 py-2 bg-blue-600 text-white rounded">Đăng nhập</button>
+      </div>
+    </form>
+    <p class="mt-4 text-xs text-gray-500">Mặc định: username <strong>admin</strong> / mật khẩu <strong>ChangeMe123</strong>. Hãy thay đổi sau khi đăng nhập.</p>
+  </div>
+</body>
+</html>
