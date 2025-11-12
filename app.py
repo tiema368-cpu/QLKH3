@@ -74,7 +74,6 @@ def logout():
 def index():
     items = load_data()
     return render_template("index.html", items=items, user=session.get("user"))
-
 @app.route("/add", methods=["POST"])
 @login_required
 def add():
@@ -82,6 +81,9 @@ def add():
     form = request.form
     new_item = {
         "id": str(uuid.uuid4()),
+        "author": form.get("author","").strip(),
+        "faculty": form.get("faculty","").strip(),
+        "department": form.get("department","").strip(),
         "title": form.get("title","").strip(),
         "code": form.get("code","").strip(),
         "level": form.get("level","").strip(),
@@ -95,6 +97,7 @@ def add():
     save_data(items)
     flash("Đã thêm đề tài.", "success")
     return redirect(url_for("index"))
+
 
 @app.route("/edit/<id>", methods=["GET", "POST"])
 @login_required
