@@ -1,118 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Hệ thống quản lý sản phẩm khoa học</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Hệ thống quản lý sản phẩm khoa học</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <header class="bg-yellow-400 border-b">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white">🌿</div>
-        <div>
-          <h1 class="text-lg font-bold text-gray-800">UBND TỈNH TUYÊN QUANG</h1>
-          <p class="text-sm text-gray-700">TRƯỜNG ĐẠI HỌC TAN TRAO</p>
+<body class="bg-gray-50">
+    <header class="bg-yellow-400 p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="font-bold text-lg text-gray-800">UBND TỈNH TUYÊN QUANG - TRƯỜNG ĐẠI HỌC TAN TRAO</h1>
+            <div>Xin chào, {{ user }} | <a href="{{ url_for('logout') }}">Đăng xuất</a></div>
         </div>
-      </div>
-      <div class="flex items-center space-x-4">
-        <div class="text-sm">Xin chào, <strong>{{ user }}</strong></div>
-        <a href="{{ url_for('logout') }}" class="px-3 py-2 bg-red-500 text-white rounded">Đăng xuất</a>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="max-w-7xl mx-auto px-4 py-8">
-    <div class="bg-white rounded-lg shadow-sm border">
-      <div class="p-6 border-b">
-        <h2 class="text-2xl font-bold text-red-600 mb-4">HỆ THỐNG QUẢN LÝ SẢN PHẨM KHOA HỌC</h2>
-        <form id="filterForm" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" onsubmit="return false;">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
-            <input id="filter_name" placeholder="Nhập họ và tên" class="w-full px-3 py-2 border border-gray-300 rounded-md" type="text">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Khoa / Trung tâm</label>
-            <select id="filter_dept" class="w-full px-3 py-2 border border-gray-300 rounded-md pr-8">
-              <option value="">Chọn khoa</option>
-              <option>Khoa Công nghệ thông tin</option>
-              <option>Khoa Kinh tế</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Bộ môn</label>
-            <input id="filter_unit" placeholder="Vui lòng chọn khoa trước" class="w-full px-3 py-2 border border-gray-300 rounded-md" type="text">
-          </div>
+    <main class="max-w-7xl mx-auto p-6">
+        <h2 class="text-2xl font-bold text-red-600 mb-4">Danh sách đề tài nghiên cứu</h2>
+
+        <!-- Form thêm đề tài -->
+        <form action="{{ url_for('add') }}" method="POST" class="bg-white p-6 rounded shadow mb-6 space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label>Họ và tên</label>
+                    <input name="author" class="w-full border px-2 py-1 rounded" type="text" placeholder="Nhập họ và tên">
+                </div>
+                <div>
+                    <label>Khoa</label>
+                    <select name="faculty" class="w-full border px-2 py-1 rounded">
+                        <option value="">Chọn khoa</option>
+                        <option value="cntt">Công nghệ thông tin</option>
+                        <option value="kt">Kinh tế</option>
+                        <option value="nn">Ngoại ngữ</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Bộ môn</label>
+                    <input name="department" class="w-full border px-2 py-1 rounded" placeholder="Vui lòng chọn khoa trước">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label>Tên đề tài *</label>
+                    <input name="title" class="w-full border px-2 py-1 rounded" type="text">
+                </div>
+                <div>
+                    <label>Mã số đề tài *</label>
+                    <input name="code" class="w-full border px-2 py-1 rounded" type="text">
+                </div>
+                <div>
+                    <label>Cấp đề tài *</label>
+                    <select name="level" class="w-full border px-2 py-1 rounded">
+                        <option value="">Chọn cấp</option>
+                        <option value="national">Cấp quốc gia</option>
+                        <option value="ministry">Cấp bộ</option>
+                        <option value="provincial">Cấp tỉnh</option>
+                        <option value="university">Cấp trường</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Vai trò *</label>
+                    <select name="role" class="w-full border px-2 py-1 rounded">
+                        <option value="">Chọn vai trò</option>
+                        <option value="leader">Chủ nhiệm</option>
+                        <option value="member">Thành viên</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Năm bắt đầu *</label>
+                    <input name="start_year" class="w-full border px-2 py-1 rounded" type="number">
+                </div>
+                <div>
+                    <label>Năm kết thúc *</label>
+                    <input name="end_year" class="w-full border px-2 py-1 rounded" type="number">
+                </div>
+                <div>
+                    <label>Kinh phí (triệu đồng)</label>
+                    <input name="budget" class="w-full border px-2 py-1 rounded" type="number">
+                </div>
+                <div>
+                    <label>Tình trạng *</label>
+                    <select name="status" class="w-full border px-2 py-1 rounded">
+                        <option value="">Chọn tình trạng</option>
+                        <option value="ongoing">Đang thực hiện</option>
+                        <option value="completed">Đã hoàn thành</option>
+                        <option value="cancelled">Đã hủy</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Thêm đề tài</button>
         </form>
-      </div>
 
-      <div class="p-6">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold text-gray-800">Danh sách đề tài nghiên cứu/TLTK</h3>
-          <button onclick="showAdd()" class="px-4 py-2 bg-green-600 text-white rounded-md">Thêm đề tài</button>
-        </div>
-
-        <div id="itemsList" class="space-y-4">
-          {% for it in items %}
-          <div class="border rounded-lg p-4 bg-gray-50">
-            <div class="flex justify-between items-center mb-2">
-              <h4 class="font-medium text-gray-700">{{ it.title or '(Chưa có tên)' }}</h4>
-              <div class="space-x-2">
-                <a href="{{ url_for('edit', id=it.id) }}" class="px-3 py-1 bg-yellow-400 rounded">Sửa</a>
-                <form method="post" action="{{ url_for('delete', id=it.id) }}" style="display:inline" onsubmit="return confirm('Xác nhận xóa?')">
-                  <button type="submit" class="px-3 py-1 bg-red-500 text-white rounded">Xóa</button>
-                </form>
-              </div>
+        <!-- Hiển thị danh sách đề tài -->
+        <div class="space-y-4">
+            {% for item in items %}
+            <div class="bg-white p-4 rounded shadow flex justify-between items-center">
+                <div>
+                    <h3 class="font-semibold">{{ item.title }}</h3>
+                    <p>Mã số: {{ item.code }}, Cấp: {{ item.level }}, Vai trò: {{ item.role }}</p>
+                    <p>Năm: {{ item.start_year }} - {{ item.end_year }}, Kinh phí: {{ item.budget }} triệu, Tình trạng: {{ item.status }}</p>
+                </div>
+                <div class="space-x-2">
+                    <form action="{{ url_for('delete', id=item.id) }}" method="POST" style="display:inline;">
+                        <button class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700">Xóa</button>
+                    </form>
+                    <a href="{{ url_for('edit', id=item.id) }}" class="bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700">Sửa</a>
+                </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
-              <div><strong>Mã số:</strong> {{ it.code }}</div>
-              <div><strong>Cấp:</strong> {{ it.level }}</div>
-              <div><strong>Vai trò:</strong> {{ it.role }}</div>
-              <div><strong>Năm:</strong> {{ it.start_year }} - {{ it.end_year }}</div>
-              <div><strong>Kinh phí:</strong> {{ it.budget }}</div>
-              <div><strong>Tình trạng:</strong> {{ it.status }}</div>
-            </div>
-          </div>
-          {% else %}
-          <div class="text-gray-600">Chưa có đề tài nào. Hãy thêm bằng nút "Thêm đề tài".</div>
-          {% endfor %}
+            {% endfor %}
         </div>
-      </div>
-
-      <div class="p-6 border-t bg-gray-50 flex justify-end">
-        <button onclick="location.href='{{ url_for('index') }}'" class="px-6 py-2 bg-blue-600 text-white rounded">Tải lại</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- Add modal (simple) -->
-  <div id="addModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 hidden">
-    <div class="bg-white rounded-lg w-full max-w-2xl p-6">
-      <h3 class="text-lg font-semibold mb-4">Thêm đề tài</h3>
-      <form method="post" action="{{ url_for('add') }}">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div><label class="block text-sm font-medium mb-1">Tên đề tài *</label><input name="title" class="w-full border px-3 py-2 rounded" required></div>
-          <div><label class="block text-sm font-medium mb-1">Mã số đề tài *</label><input name="code" class="w-full border px-3 py-2 rounded" required></div>
-          <div><label class="block text-sm font-medium mb-1">Cấp đề tài *</label><select name="level" class="w-full border px-3 py-2 rounded"><option value="">Chọn cấp</option><option value="national">Cấp quốc gia</option><option value="ministry">Cấp bộ</option><option value="provincial">Cấp tỉnh</option><option value="university">Cấp trường</option></select></div>
-          <div><label class="block text-sm font-medium mb-1">Vai trò *</label><select name="role" class="w-full border px-3 py-2 rounded"><option value="">Chọn vai trò</option><option value="leader">Chủ nhiệm</option><option value="member">Thành viên</option></select></div>
-          <div><label class="block text-sm font-medium mb-1">Năm bắt đầu *</label><input name="start_year" type="number" class="w-full border px-3 py-2 rounded" placeholder="2024"></div>
-          <div><label class="block text-sm font-medium mb-1">Năm kết thúc *</label><input name="end_year" type="number" class="w-full border px-3 py-2 rounded" placeholder="2025"></div>
-          <div><label class="block text-sm font-medium mb-1">Kinh phí (triệu đồng)</label><input name="budget" type="number" class="w-full border px-3 py-2 rounded"></div>
-          <div><label class="block text-sm font-medium mb-1">Tình trạng *</label><select name="status" class="w-full border px-3 py-2 rounded"><option value="">Chọn tình trạng</option><option value="ongoing">Đang thực hiện</option><option value="completed">Đã hoàn thành</option><option value="cancelled">Đã hủy</option></select></div>
-        </div>
-        <div class="flex justify-end space-x-2">
-          <button type="button" onclick="hideAdd()" class="px-4 py-2 border rounded">Hủy</button>
-          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Lưu thông tin</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    function showAdd(){ document.getElementById('addModal').classList.remove('hidden'); }
-    function hideAdd(){ document.getElementById('addModal').classList.add('hidden'); }
-  </script>
+    </main>
 </body>
 </html>
